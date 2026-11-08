@@ -2,6 +2,8 @@
 
 REST API переводов между счетами: счёт не уйдёт в минус, а повтор запроса не спишет деньги второй раз. Деньги здесь учебные.
 
+**[Открыть демо →](https://chop-prog.github.io/ledger/)** — гонка 200 переводов и повтор запроса в браузере. Правила перенесены на JavaScript в [`demo/`](demo), сам сервис на C# там не запускается.
+
 _English: an ASP.NET Core API for account transfers. Atomic updates prevent overdrafts, idempotency keys make retries safe, and every account's entries add up to its balance._
 
 C# · .NET 10 · ASP.NET Core Minimal API · EF Core · SQLite · xUnit

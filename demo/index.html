@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ledger — демо</title>
+<meta name="description" content="Как счёт не уходит в минус, а повтор запроса не списывает деньги дважды: демо прямо в браузере.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <header>
+    <p class="eyebrow">C# · ASP.NET Core</p>
+    <h1>Как не потратить деньги, которых нет</h1>
+    <p class="lead">На счёте 5 000 ₽. Приходит 200 одновременных переводов по 100 ₽. Хватает только на 50.</p>
+    <p class="notice">Демо работает в браузере: правила сервиса перенесены на JavaScript, сервер здесь не запускается, деньги учебные. Настоящий код на C# и его тесты — <a href="https://github.com/chop-prog/ledger">на GitHub</a>.</p>
+  </header>
+
+  <section>
+    <button type="button" id="run" class="primary">Запустить 200 переводов</button>
+    <div class="race">
+      <article id="naive" class="lane">
+        <h2>Прочитал, потом сохранил</h2>
+        <pre><code>var balance = Read();
+if (balance &gt;= amount) Save(balance - amount);</code></pre>
+        <div class="dots" aria-hidden="true"></div>
+        <p class="score"></p>
+      </article>
+      <article id="atomic" class="lane">
+        <h2>Один SQL-запрос</h2>
+        <pre><code>update Accounts set Balance = Balance - @amount
+ where Id = @id and Balance &gt;= @amount;</code></pre>
+        <div class="dots" aria-hidden="true"></div>
+        <p class="score"></p>
+      </article>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="title">Попробуйте API</h2>
+    <div class="play">
+      <div class="panel">
+        <div class="accounts" id="accounts"></div>
+        <form id="form" class="row">
+          <label for="amount">Анна → Борис</label>
+          <input id="amount" type="number" min="1" value="300">
+          <button type="submit" class="primary">Перевести</button>
+        </form>
+        <button type="button" id="retry" disabled>Повторить тот же запрос (ответ потерялся)</button>
+        <h3>Проводки Анны</h3>
+        <ul id="statement" class="list"></ul>
+      </div>
+      <div class="panel">
+        <h3>Что ответил сервер</h3>
+        <ol id="log" class="log"></ol>
+      </div>
+    </div>
+  </section>
+
+  <footer>Сделал <a href="https://chop-prog.github.io">chop-prog</a> вместе с Claude Code</footer>
+</main>
+<script type="module" src="app.js"></script>
+</body>
+</html>
